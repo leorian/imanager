@@ -1,6 +1,6 @@
 <div class="col-md-12">
     <ol class="breadcrumb">
-        <li class="active">INSIST-RPC管理后台</li>
+        <li class="active">${html_title}</li>
     </ol>
 </div>
 <div class="col-md-12">
