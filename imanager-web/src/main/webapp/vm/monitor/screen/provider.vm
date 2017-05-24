@@ -1,6 +1,6 @@
 <div class="col-md-12">
     <ol class="breadcrumb">
-        <li class="active">${html_title}/服务者列表</li>
+        <li class="active">${html_title}</li>
     </ol>
 </div>
 <div class="col-md-12">
@@ -58,7 +58,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    操作概况
+                    服务信息
                 </h4>
             </div>
             <div class="modal-body" id="myModalBody" style="word-break:break-all; word-wrap:break-all;">
