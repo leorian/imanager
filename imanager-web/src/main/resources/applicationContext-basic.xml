@@ -40,7 +40,7 @@
     </bean>
 
     <bean id="unifiedLogAdvisor" class="com.bozhong.unifiedLog.advisor.UnifiedLogAdvisor">
-        <property name="localAppName" value="document-web"/>
+        <property name="localAppName" value="imanager-web"/>
         <property name="maxFileSize" value="14"/>
     </bean>
 
