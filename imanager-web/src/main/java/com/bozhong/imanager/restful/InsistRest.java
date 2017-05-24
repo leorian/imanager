@@ -1,7 +1,9 @@
 package com.bozhong.imanager.restful;
 
 import com.alibaba.fastjson.JSON;
+import com.bozhong.common.util.ResultMessageBuilder;
 import com.bozhong.common.util.StringUtil;
+import com.bozhong.imanager.common.ImanagerErrorEnum;
 import com.bozhong.insist.common.InsistConstants;
 import com.bozhong.insist.common.InsistUtil;
 import com.bozhong.insist.module.ServiceMeta;
@@ -46,49 +48,56 @@ public class InsistRest {
         String group = (String) EWebServletContext.getEWebContext().get("group");
         List<ServiceMeta> serviceMetaList = new ArrayList<>();
         if (StringUtil.isBlank(serviceName) && StringUtil.isBlank(group)) {
-            try {
-                List<String> groupPaths = InsistZkClient.getInstance().getNodeChildren(InsistUtil.getProviderZkPath());
-                if (!CollectionUtils.isEmpty(groupPaths)) {
-                    for (String groupPath : groupPaths) {
-                        List<String> serviceGroupPaths = InsistZkClient.getInstance().
-                                getNodeChildren(InsistUtil.getProviderZkPath() +
-                                        InsistConstants.INSIST_ZK_SLASH + groupPath);
-                        if (!CollectionUtils.isEmpty(serviceGroupPaths)) {
-                            for (String serviceGroupPath : serviceGroupPaths) {
-                                List<String> versionServiceGroupPaths = InsistZkClient.getInstance().
-                                        getNodeChildren(InsistUtil.getProviderZkPath() +
-                                                InsistConstants.INSIST_ZK_SLASH + groupPath +
-                                                InsistConstants.INSIST_ZK_SLASH + serviceGroupPath);
-                                if (!CollectionUtils.isEmpty(versionServiceGroupPaths)) {
-                                    for (String versionServiceGroupPath : versionServiceGroupPaths) {
-                                        List<String> versionServiceGroupPathAndIpPorts = InsistZkClient.
-                                                getInstance().getNodeChildren(InsistUtil.getProviderZkPath() +
-                                                InsistConstants.INSIST_ZK_SLASH + groupPath +
-                                                InsistConstants.INSIST_ZK_SLASH + serviceGroupPath +
-                                                InsistConstants.INSIST_ZK_SLASH + versionServiceGroupPath);
-                                        if (!CollectionUtils.isEmpty(versionServiceGroupPathAndIpPorts)) {
-                                            for (String versionServiceGroupPathAndIpPort :
-                                                    versionServiceGroupPathAndIpPorts) {
-                                                String serviceMetaStr = InsistZkClient.getInstance().getDataForStr(InsistUtil.getProviderZkPath() +
-                                                        InsistConstants.INSIST_ZK_SLASH + groupPath +
-                                                        InsistConstants.INSIST_ZK_SLASH + serviceGroupPath +
-                                                        InsistConstants.INSIST_ZK_SLASH + versionServiceGroupPath +
-                                                        InsistConstants.INSIST_ZK_SLASH + versionServiceGroupPathAndIpPort, -1);
-                                                if (StringUtil.isNotBlank(serviceMetaStr)) {
-                                                    serviceMetaList.add(InsistUtil.jsonToServiceMeta(serviceMetaStr));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+            //分组
+            List<String> groupPaths = getChildrenPath(InsistUtil.getProviderZkPath());
+            if (CollectionUtils.isEmpty(groupPaths)) {
+                return ResultMessageBuilder.build(false, ImanagerErrorEnum.E10002.getError(),
+                        ImanagerErrorEnum.E10002.getMsg()).
+                        toJSONString();
+            }
+
+            for (String groupPath : groupPaths) {
+                //服务
+                List<String> serviceGroupPaths = getChildrenPath(InsistUtil.getProviderZkPath() +
+                        InsistConstants.INSIST_ZK_SLASH + groupPath);
+                if (CollectionUtils.isEmpty(serviceGroupPaths)) {
+                    continue;
+                }
+
+                for (String serviceGroupPath : serviceGroupPaths) {
+                    //版本
+                    List<String> versionServiceGroupPaths = getChildrenPath(InsistUtil.getProviderZkPath() +
+                            InsistConstants.INSIST_ZK_SLASH + groupPath +
+                            InsistConstants.INSIST_ZK_SLASH + serviceGroupPath);
+                    if (CollectionUtils.isEmpty(versionServiceGroupPaths)) {
+                        continue;
+                    }
+
+                    for (String versionServiceGroupPath : versionServiceGroupPaths) {
+                        //IP端口号
+                        List<String> versionServiceGroupPathAndIpPorts = getChildrenPath(InsistUtil.getProviderZkPath() +
+                                InsistConstants.INSIST_ZK_SLASH + groupPath +
+                                InsistConstants.INSIST_ZK_SLASH + serviceGroupPath +
+                                InsistConstants.INSIST_ZK_SLASH + versionServiceGroupPath);
+                        if (CollectionUtils.isEmpty(versionServiceGroupPathAndIpPorts)) {
+                            continue;
+                        }
+
+                        //节点数据
+                        for (String versionServiceGroupPathAndIpPort :
+                                versionServiceGroupPathAndIpPorts) {
+                            String serviceMetaStr = getPathData(InsistUtil.getProviderZkPath() +
+                                    InsistConstants.INSIST_ZK_SLASH + groupPath +
+                                    InsistConstants.INSIST_ZK_SLASH + serviceGroupPath +
+                                    InsistConstants.INSIST_ZK_SLASH + versionServiceGroupPath +
+                                    InsistConstants.INSIST_ZK_SLASH + versionServiceGroupPathAndIpPort);
+                            if (StringUtil.isNotBlank(serviceMetaStr)) {
+                                serviceMetaList.add(InsistUtil.jsonToServiceMeta(serviceMetaStr));
                             }
                         }
                     }
                 }
-            } catch (Throwable e) {
-                e.printStackTrace();
             }
-
         }
         return JSON.toJSONString(serviceMetaList);
     }
@@ -124,5 +133,37 @@ public class InsistRest {
     @Path("zkHosts")
     public String zkHosts(@Context Request request, @Context UriInfo uriInfo, @Context HttpHeaders httpHeaders) {
         return System.getProperty("insist.zkHosts");
+    }
+
+    /**
+     * 获取子节点
+     *
+     * @param baseZkPath
+     * @return
+     */
+    private List<String> getChildrenPath(String baseZkPath) {
+        try {
+            return InsistZkClient.getInstance().getNodeChildren(baseZkPath);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * 获取节点数据
+     *
+     * @param zkPath
+     * @return
+     */
+    private String getPathData(String zkPath) {
+        try {
+            return InsistZkClient.getInstance().getDataForStr(zkPath, -1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

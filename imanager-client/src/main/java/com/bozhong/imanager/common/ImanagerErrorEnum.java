@@ -7,7 +7,8 @@ import com.alibaba.fastjson.JSON;
  */
 public enum ImanagerErrorEnum {
 
-    E10001("E10001", "Login Failure Public Private Key Expire", "用户密码公钥私钥加密策略过期，请重新进入登录页面！"),;
+    E10001("E10001", "Login Failure Public Private Key Expire", "用户密码公钥私钥加密策略过期，请重新进入登录页面！"),
+    E10002("E10002", "Group Empty!", "分组为空！");
 
     private String error;
 
