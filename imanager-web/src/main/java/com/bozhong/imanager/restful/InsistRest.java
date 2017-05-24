@@ -5,7 +5,6 @@ import com.bozhong.common.util.ResultMessageBuilder;
 import com.bozhong.common.util.StringUtil;
 import com.bozhong.imanager.common.ImanagerErrorEnum;
 import com.bozhong.imanager.tools.ImanagerUtil;
-import com.bozhong.insist.common.InsistConstants;
 import com.bozhong.insist.common.InsistUtil;
 import com.bozhong.insist.module.ServiceMeta;
 import com.bozhong.insist.zk.InsistZkClient;
