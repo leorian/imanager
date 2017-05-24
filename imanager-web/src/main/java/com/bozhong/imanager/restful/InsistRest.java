@@ -107,7 +107,7 @@ public class InsistRest {
 
         }
 
-        return JSON.toJSONString(serviceMetaList);
+        return ResultMessageBuilder.build(serviceMetaList).toJSONString();
     }
 
     /**
