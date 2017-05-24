@@ -1,9 +1,7 @@
 package com.bozhong.imanager.restful;
 
-import com.bozhong.insist.zk.InsistZkClient;
 import com.sun.jersey.spi.resource.Singleton;
 import com.yx.eweb.main.EWebServletContext;
-import org.apache.zookeeper.KeeperException;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.POST;
@@ -12,7 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
-import java.io.IOException;
 
 /**
  * Created by xiezg@317hu.com on 2017/5/24 0024.
@@ -58,5 +55,19 @@ public class InsistRest {
         String serviceName = (String) EWebServletContext.getEWebContext().get("serviceName");
         String group = (String) EWebServletContext.getEWebContext().get("group");
         return null;
+    }
+
+    /**
+     * 获取zookeeper连接信息
+     *
+     * @param request
+     * @param uriInfo
+     * @param httpHeaders
+     * @return
+     */
+    @POST
+    @Path("zkHosts")
+    public String zkHosts(@Context Request request, @Context UriInfo uriInfo, @Context HttpHeaders httpHeaders) {
+        return System.getProperty("insist.zkHosts");
     }
 }

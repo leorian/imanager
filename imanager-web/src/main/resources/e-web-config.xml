@@ -10,6 +10,7 @@
         <ignore page="/login/generatePublicKey"></ignore>
         <ignore page="/login/checkLogin"></ignore>
         <ignore page="/monitor/login.htm"></ignore>
+        <ignore page="/insist/zkHosts"></ignore>
     </ignores>
     <notIgnores>
         <notIgnore regular="^[\w\W]*/imanager/[\w\W]*$"></notIgnore>
