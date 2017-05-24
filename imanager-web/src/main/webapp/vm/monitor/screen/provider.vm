@@ -26,8 +26,8 @@
                 <label class="control-label" for="group">组：</label>
                 <input type="text" class="form-control" id="group" name="group">
             </div>
-            <button type="button" class="btn btn-info">搜索</button>
-            <button type="button" class="btn btn-default">清空</button>
+            <button type="button" id="searchBtn" class="btn btn-info">搜索</button>
+            <button type="button" id="resetBtn" class="btn btn-default">清空</button>
         </form>
     </div>
 
@@ -57,25 +57,46 @@
         <td><%= n.version %></td>
         <td><%= n.group %></td>
         <td><%= n.ip %></td>
-        <td><button type="button" class="btn btn-xs btn-link btn-edit launch">详情</button></td>
+        <td>
+            <button type="button" class="btn btn-xs btn-link btn-edit launch">详情</button>
+        </td>
     </tr>
     <% });%>
 </script>
 <script type="text/javascript">
     $(function () {
+
+        //服务列表查询事件
+        function providerList() {
+            $.post("${ctxPath}/imanager/insist/providerList", {
+                "serviceName": $("#serviceName").val(),
+                "group": $("#group").val()
+            }, function (data) {
+                if (data.success && data.data.length > 0) {
+                    $('#providerTable').find("tbody").html(_.template($('#providerTableTemplate').html(), {variable: 'data'})(data.data));
+                } else {
+                    $("#providerTable").find("tbody").html(" <tr><td colspan=\"6\" style=\"text-align: center;\">暂无信息！</td> </tr>");
+                }
+            }, "json");
+        }
+
+        providerList();
+
+        $("#searchBtn").click(function () {
+            providerList();
+        });
+
+        $("#resetBtn").click(function () {
+            $("#serviceName").val("");
+            $("#group").val("");
+            providerList();
+        });
+
+        //tab页切换事件
         $("#myTab").delegate("a", "click", function () {
             window.location = $(this).attr("href");
         });
 
-        $.post("${ctxPath}/imanager/insist/providerList", {
-            "serviceName": $("#serviceName").val(),
-            "group": $("#group").val()
-        }, function (data) {
-            if (data.success && data.data.length > 0) {
-                $('#providerTable').find("tbody").html(_.template($('#providerTableTemplate').html(), {variable: 'data'})(data.data));
-            } else {
-                $("#providerTable").find("tbody").html(" <tr><td colspan=\"6\" style=\"text-align: center;\">暂无信息！</td> </tr>");
-            }
-        }, "json");
+
     });
 </script>

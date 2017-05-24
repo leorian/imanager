@@ -57,7 +57,7 @@ public class InsistRest {
         //查询条件分组不为空时
         if (StringUtil.isNotBlank(group)) {
             groupPaths = new ArrayList<>();
-            groupPaths.add(group);
+            groupPaths.add(group.trim());
         }
 
         for (String groupPath : groupPaths) {
@@ -70,7 +70,7 @@ public class InsistRest {
             //查询条件服务名不为空时
             if (StringUtil.isNotBlank(serviceName)) {
                 serviceGroupPaths = new ArrayList<>();
-                serviceGroupPaths.add(serviceName);
+                serviceGroupPaths.add(serviceName.trim());
             }
 
             for (String serviceGroupPath : serviceGroupPaths) {
