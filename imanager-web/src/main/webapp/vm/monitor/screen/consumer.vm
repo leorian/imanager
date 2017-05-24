@@ -1,16 +1,16 @@
 <div class="col-md-12">
     <ol class="breadcrumb">
-        <li class="active">${html_title}/服务者列表</li>
+        <li class="active">${html_title}/消费者列表</li>
     </ol>
 </div>
 <div class="col-md-12">
     <ul id="myTab" class="nav nav-tabs">
-        <li class="active">
+        <li>
             <a href="provider.htm" data-toggle="tab">
                 服务者列表
             </a>
         </li>
-        <li>
+        <li class="active">
             <a href="consumer.htm" data-toggle="tab">
                 消费者列表
             </a>
