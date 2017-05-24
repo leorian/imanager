@@ -1,6 +1,5 @@
 package com.bozhong.imanager.restful;
 
-import com.alibaba.fastjson.JSON;
 import com.bozhong.common.util.ResultMessageBuilder;
 import com.bozhong.common.util.StringUtil;
 import com.bozhong.imanager.common.ImanagerErrorEnum;
