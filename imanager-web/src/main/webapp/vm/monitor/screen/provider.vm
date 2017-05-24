@@ -57,7 +57,7 @@
         <td><%= n.version %></td>
         <td><%= n.group %></td>
         <td><%= n.ip %></td>
-        <td>详情</td>
+        <td><button type="button" class="btn btn-xs btn-link btn-edit launch">详情</button></td>
     </tr>
     <% });%>
 </script>
