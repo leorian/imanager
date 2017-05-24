@@ -432,6 +432,11 @@
             <artifactId>sigar</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.bozhong</groupId>
+            <artifactId>insist</artifactId>
+        </dependency>
+
 
 
     </dependencies>

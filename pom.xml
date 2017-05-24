@@ -351,11 +351,11 @@
                 <artifactId>asm</artifactId>
                 <version>4.0</version>
             </dependency>
-            <dependency>
-                <groupId>com.bozhong</groupId>
-                <artifactId>insist</artifactId>
-                <version>1.0.7</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.bozhong</groupId>-->
+                <!--<artifactId>insist</artifactId>-->
+                <!--<version>1.0.7</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>com.bozhong</groupId>
                 <artifactId>zkclient</artifactId>
@@ -631,6 +631,12 @@
                 <groupId>org.fusesource</groupId>
                 <artifactId>sigar</artifactId>
                 <version>1.6.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.bozhong</groupId>
+                <artifactId>insist</artifactId>
+                <version>1.0.10</version>
             </dependency>
 
         </dependencies>
