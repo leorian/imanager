@@ -73,7 +73,8 @@ public class ImanagerUtil {
      * @return
      */
     public static String getProviderIpPortPath(String group, String serviceName, String version, String ipPort) {
-        return getProviderServiceNameGroupVersionZkPath(group, serviceName, version) + InsistConstants.INSIST_ZK_SLASH + ipPort;
+        return getProviderServiceNameGroupVersionZkPath(group, serviceName, version) +
+                InsistConstants.INSIST_ZK_SLASH + ipPort;
     }
 
     /**
@@ -84,6 +85,7 @@ public class ImanagerUtil {
      * @return
      */
     public static String getConsumerIpPortPath(String group, String serviceName, String version, String ipPort) {
-        return getConsumerServiceNameGroupVersionZkPath(group, serviceName, version) + InsistConstants.INSIST_ZK_SLASH + ipPort;
+        return getConsumerServiceNameGroupVersionZkPath(group, serviceName, version) +
+                InsistConstants.INSIST_ZK_SLASH + ipPort;
     }
 }
