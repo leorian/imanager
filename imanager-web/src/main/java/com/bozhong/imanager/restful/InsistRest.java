@@ -33,7 +33,8 @@ public class InsistRest {
     /**
      * 请求参数：{
      * serviceName:服务名，
-     * group:组
+     * group:组,
+     * ip:ip
      * }
      *
      * @param request
@@ -124,7 +125,8 @@ public class InsistRest {
     /**
      * 请求参数：{
      * serviceName:"服务名",
-     * group:组
+     * group:组,
+     * ip:ip
      * }
      *
      * @param request
@@ -137,6 +139,7 @@ public class InsistRest {
     public String consumerList(@Context Request request, @Context UriInfo uriInfo, @Context HttpHeaders httpHeaders) {
         String serviceName = (String) EWebServletContext.getEWebContext().get("serviceName");
         String group = (String) EWebServletContext.getEWebContext().get("group");
+        String ip = (String) EWebServletContext.getEWebContext().get("ip");
         List<InsistConsumerMeta> insistConsumerMetaList = new ArrayList<>();
         //分组
         List<String> groupPaths = getChildrenPath(InsistUtil.getConsumerZkPath());
@@ -179,6 +182,17 @@ public class InsistRest {
                             getConsumerServiceNameGroupVersionZkPath(groupPath, serviceGroupPath, versionServiceGroupPath));
                     if (CollectionUtils.isEmpty(versionServiceGroupPathAndIpPorts)) {
                         continue;
+                    }
+
+                    if (StringUtil.isNotBlank(ip)) {
+                        List<String> ipPorts = new ArrayList<>();
+                        for (String versionServiceGroupPathAndIpPort : versionServiceGroupPathAndIpPorts) {
+                            if (versionServiceGroupPathAndIpPort.startsWith(ip)) {
+                                ipPorts.add(versionServiceGroupPathAndIpPort);
+                            }
+                        }
+
+                        versionServiceGroupPathAndIpPorts = ipPorts;
                     }
 
                     //节点数据

@@ -26,6 +26,10 @@
                 <label class="control-label" for="group">组：</label>
                 <input type="text" class="form-control" id="group" name="group">
             </div>
+            <div class="form-group">
+                <label class="control-label" for="ip">IP：</label>
+                <input type="text" class="form-control" id="ip" name="ip">
+            </div>
             <button type="button" id="searchBtn" class="btn btn-info">搜索</button>
             <button type="button" id="resetBtn" class="btn btn-default">清空</button>
         </form>
@@ -146,7 +150,8 @@
         function consumerList() {
             $.post("${ctxPath}/imanager/insist/consumerList", {
                 "serviceName": $("#serviceName").val(),
-                "group": $("#group").val()
+                "group": $("#group").val(),
+                "ip": $("#ip").val()
             }, function (data) {
                 if (data.success && data.data.length > 0) {
                     $('#consumerTable').find("tbody").html(_.template($('#consumerTableTemplate').html(), {variable: 'data'})(data.data));
@@ -165,6 +170,7 @@
         $("#resetBtn").click(function () {
             $("#serviceName").val("");
             $("#group").val("");
+            $("#ip").val();
             consumerList();
         });
 
