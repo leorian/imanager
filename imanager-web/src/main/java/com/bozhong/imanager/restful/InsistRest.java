@@ -46,6 +46,7 @@ public class InsistRest {
     public String providerList(@Context Request request, @Context UriInfo uriInfo, @Context HttpHeaders httpHeaders) {
         String serviceName = (String) EWebServletContext.getEWebContext().get("serviceName");
         String group = (String) EWebServletContext.getEWebContext().get("group");
+        String ip = (String) EWebServletContext.getEWebContext().get("ip");
         List<ServiceMeta> serviceMetaList = new ArrayList<>();
         //分组
         List<String> groupPaths = getChildrenPath(InsistUtil.getProviderZkPath());
@@ -88,6 +89,16 @@ public class InsistRest {
                             getProviderServiceNameGroupVersionZkPath(groupPath, serviceGroupPath, versionServiceGroupPath));
                     if (CollectionUtils.isEmpty(versionServiceGroupPathAndIpPorts)) {
                         continue;
+                    }
+
+                    List<String> ipPorts = new ArrayList<>();
+                    if (StringUtil.isNotBlank(ip)) {
+                        for (String versionServiceGroupPathAndIpPort : versionServiceGroupPathAndIpPorts) {
+                            if (versionServiceGroupPathAndIpPort.startsWith(ip.trim())) {
+                                ipPorts.add(versionServiceGroupPathAndIpPort);
+                            }
+                        }
+                        versionServiceGroupPathAndIpPorts = ipPorts;
                     }
 
                     //节点数据
