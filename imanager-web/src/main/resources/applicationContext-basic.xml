@@ -13,11 +13,11 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
     <bean class="com.bozhong.config.common.ConfigSetPropertyHolder" init-method="init">
-        <property name="appId" value="25"/>
+        <property name="appId" value="29"/>
     </bean>
 
     <bean class="com.bozhong.imanager.common.SwitchLoad" init-method="init">
-        <property name="appId" value="25"/>
+        <property name="appId" value="29"/>
         <property name="zkHosts" value="${switch.zkHosts}"/>
     </bean>
 
